@@ -1,7 +1,8 @@
 name: Retrieve GHAS Alerts
 
 on:
-  workflow_dispatch: 
+  workflow_dispatch:
+  push:
 
 #permissions: write-all  
 
@@ -19,18 +20,18 @@ jobs:
     
     - name: Get Dependabot alerts using GitHub CLI      
       run: |
-        gh api /repos/${{ github.repository }}/dependabot/alerts --paginate --jq
+        gh api /repos/${{ github.repository }}/dependabot/alerts
       env:
         GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
 
     - name: Get CodeQL alerts using GitHub CLI
       run: |
-        gh api /repos/${{ github.repository }}/code-scanning/alerts --paginate --jq
+        gh api /repos/${{ github.repository }}/code-scanning/alerts
       env:
         GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
 
     - name: Get Secret Scanning alerts using GitHub CLI
       run: |
-        gh api /repos/${{ github.repository }}/secret-scanning/alerts --paginate --jq
+        gh api /repos/${{ github.repository }}/secret-scanning/alerts
       env:
         GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
