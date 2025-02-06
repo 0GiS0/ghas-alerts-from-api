@@ -3,35 +3,34 @@ name: Retrieve GHAS Alerts
 on:
   workflow_dispatch: 
 
-permissions: write-all  
+#permissions: write-all  
 
 jobs:
-  dependabot-alerts:
+  github-app-token:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Get Dependabot alerts using GitHub CLI
-        run: |
-          gh api /repos/${{ github.repository }}/dependabot/alerts --paginate --jq '.items[] | {name: .rule.name, level: .rule.severity, url: .html_url}'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  
-  codeql-alerts:
-    runs-on: ubuntu-latest
 
-    steps:
-      - name: Get CodeQL alerts using GitHub CLI
-        run: |
-          gh api /repos/${{ github.repository }}/code-scanning/alerts --paginate --jq '.items[] | {name: .rule.name, level: .rule.severity, url: .html_url}'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Generate a token
+      id: generate-token
+      uses: actions/create-github-app-token@v1
+      with:
+        app-id: ${{ secrets.APP_ID }}
+        private-key: ${{ secrets.APP_PRIVATE_KEY }}
+    
+    - name: Get Dependabot alerts using GitHub CLI
+      run: |
+        gh api /repos/${{ github.repository }}/dependabot/alerts --paginate --jq '.items[] | {name: .rule.name, level: .rule.severity, url: .html_url}'
+      env:
+        GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
 
-  secret-scanning-alerts:
-    runs-on: ubuntu-latest
+    - name: Get CodeQL alerts using GitHub CLI
+      run: |
+        gh api /repos/${{ github.repository }}/code-scanning/alerts --paginate --jq '.items[] | {name: .rule.name, level: .rule.severity, url: .html_url}'
+      env:
+        GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
 
-    steps:
-      - name: Get Secret Scanning alerts using GitHub CLI
-        run: |
-          gh api /repos/${{ github.repository }}/secret-scanning/alerts --paginate --jq '.items[] | {name: .rule.name, level: .rule.severity, url: .html_url}'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Get Secret Scanning alerts using GitHub CLI
+      run: |
+        gh api /repos/${{ github.repository }}/secret-scanning/alerts --paginate --jq '.items[] | {name: .rule.name, level: .rule.severity, url: .html_url}'
+      env:
+        GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
