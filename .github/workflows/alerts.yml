@@ -3,8 +3,7 @@ name: Retrieve GHAS Alerts
 on:
   workflow_dispatch: 
 
-permissions:
-  security-events: read
+permissions: write-all  
 
 jobs:
   dependabot-alerts:
