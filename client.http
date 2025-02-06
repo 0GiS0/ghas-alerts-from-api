@@ -1,0 +1,4 @@
+GET https://api.github.com/repos/dragonstone-org/dependabot-poc/dependabot/alerts
+Authorization: Bearer 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
+X-GitHub-Api-Version: 2022-11-28
+Accept: application/vnd.github+json

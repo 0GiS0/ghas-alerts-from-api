@@ -1,0 +1,35 @@
+name: Retrieve GHAS Alerts
+
+on:
+  workflow_dispatch: 
+
+permissions:
+  security-events: read
+
+jobs:
+  dependabot-alerts:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get Dependabot alerts using GitHub CLI
+        run: gh api /repos/${{ github.repository }}/code-scanning/alerts --paginate --jq '.items[] | {name: .rule.name, level: .rule.severity, url: .html_url}'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  
+  codeql-alerts:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get CodeQL alerts using GitHub CLI
+        run: gh api /repos/${{ github.repository }}/code-scanning/alerts --paginate --jq '.items[] | {name: .rule.name, level: .rule.severity, url: .html_url}'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  secret-scanning-alerts:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get Secret Scanning alerts using GitHub CLI
+        run: gh api /repos/${{ github.repository }}/code-scanning/alerts --paginate --jq '.items[] | {name: .rule.name, level: .rule.severity, url: .html_url}'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
