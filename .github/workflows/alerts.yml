@@ -23,7 +23,7 @@ jobs:
         gh api /repos/${{ github.repository }}/dependabot/alerts > dependabot-alerts.json
 
     - name: Upload Dependabot alerts as an artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4.6.0
       with:
         name: dependabot-alerts
         path: dependabot-alerts.json
