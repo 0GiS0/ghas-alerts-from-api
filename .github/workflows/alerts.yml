@@ -21,6 +21,8 @@ jobs:
     - name: Get Dependabot alerts using GitHub CLI      
       run: |
         gh api /repos/${{ github.repository }}/dependabot/alerts > dependabot-alerts.json
+      env:
+        GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
 
     - name: Upload Dependabot alerts as an artifact
       uses: actions/upload-artifact@v4.6.0
@@ -28,8 +30,6 @@ jobs:
         name: dependabot-alerts
         path: dependabot-alerts.json
 
-      env:
-        GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
 
     - name: Get CodeQL alerts using GitHub CLI
       run: |
