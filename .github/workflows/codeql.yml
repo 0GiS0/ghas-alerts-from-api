@@ -103,6 +103,6 @@ jobs:
         # Artifact name
         name: codeql-result
         # A file, directory or wildcard pattern that describes what to upload
-        path:  results/python.sarif
+        path:  /home/runner/work/ghas-alerts-from-api/results/python.sarif
 
 
