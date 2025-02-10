@@ -1,7 +1,6 @@
-@PAT = {{ $dotenv PAT }}
 @REPO_NAME = {{ $dotenv REPO_NAME }}
-
 @OWNER = {{ $dotenv OWNER }}
+@PAT = {{ $dotenv PAT }}
 
 ###
 
@@ -64,9 +63,9 @@ query ($name: String!, $owner: String!) {
               score     
               vectorString        
             }
-            cwes(first: 5) {
+            cwes(first: 5) {              
               nodes {
-                id
+                cweId
                 name
                 description
               }
