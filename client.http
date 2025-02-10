@@ -163,3 +163,10 @@ query ($name: String!, $owner: String!) {
     "owner": "{{ OWNER }}"
 }
 
+###
+
+# Get CodeQL alerts using GitHub CLI
+
+https://api.github.com/repos/{{ OWNER }}/{{ REPO_NAME }}/code-scanning/alerts
+Content-Type: application/json
+Authorization: Bearer {{ PAT }}
