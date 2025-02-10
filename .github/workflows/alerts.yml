@@ -48,7 +48,7 @@ jobs:
     - name: Get Security alerts using GraphQL API
       run: |
         query='
-          query ($name: String!, $owner: String!) {  
+          query () {  
             repository(owner: "0GiS0", name: "ghas-alerts-from-api") {
               nameWithOwner
               url
