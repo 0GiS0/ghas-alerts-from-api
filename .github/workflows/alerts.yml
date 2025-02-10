@@ -94,7 +94,7 @@ jobs:
             }
           }
           {
-            "name": "${{ github.repository }}",
+            "name": "ghas-alerts-from-api",
             "owner": "${{ github.repository_owner }}"
           }'
         gh api graphql -F query="${query}"
