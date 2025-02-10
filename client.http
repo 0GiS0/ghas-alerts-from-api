@@ -170,3 +170,11 @@ query ($name: String!, $owner: String!) {
 https://api.github.com/repos/{{ OWNER }}/{{ REPO_NAME }}/code-scanning/alerts
 Content-Type: application/json
 Authorization: Bearer {{ PAT }}
+
+###
+
+# Get Secret Scanning alerts using GitHub CLI
+
+https://api.github.com/repos/{{ OWNER }}/{{ REPO_NAME }}/secret-scanning/alerts
+Content-Type: application/json
+Authorization: Bearer {{ PAT }}
