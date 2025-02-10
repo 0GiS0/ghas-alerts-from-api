@@ -1,17 +1,15 @@
-```bash
-source .env
+# GitHub Advanced Security (GHAS) - DefectDojo Integration
+
+This repository contains the necessary scripts to import GitHub Advanced Security (GHAS) findings into DefectDojo.
+
+## DefectDojo
+
+In order to import GHAS findings we should use as `Scan Type`: 
+
+- `GitHub Vulnerability Scan` for Security Updates from Dependabot
+- `SARIF` for Code Scanning Alerts
+- `??` for Secret Scanning Alerts
 
 
-curl -L \
-  -H "Accept: application/vnd.github+json" \
-  -H "Authorization: Bearer $GITHUB_TOKEN" \
-  -H "X-GitHub-Api-Version: 2022-11-28" \
-  https://api.github.com/repos/dragonstone-org/dependabot-poc/dependabot/alerts
-```
+We can do it manually or using the DefectDojo API, througt the Commnand Line Interface (CLI) or the REST API.
 
-
-  ## Using GitHub CLI
-
-
-  ```bash
-gh api /repos/${{ github.repository }}/code-scanning/alerts --paginate --jq '.items[] | {name: .rule.name, level: .rule.severity, url: .html_url}'
