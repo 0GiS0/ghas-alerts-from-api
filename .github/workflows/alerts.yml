@@ -42,3 +42,61 @@ jobs:
         gh api /repos/${{ github.repository }}/secret-scanning/alerts
       env:
         GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
+
+
+    - name: Get Security alerts using GraphQL API
+      run: |
+        query='
+          query ($name: String!, $owner: String!) {  
+            repository(owner: $owner, name: $name) {
+              nameWithOwner
+              url
+              vulnerabilityAlerts(first: 20) {
+                nodes {
+                  id
+                  number
+                  createdAt
+                  state
+                  vulnerableManifestPath
+                  vulnerableRequirements        
+                  securityVulnerability {
+                    package {
+                      name
+                    }
+                    advisory {
+                      severity
+                      summary
+                      description
+                      references {
+                        url
+                      }
+                      identifiers {
+                        type
+                        value
+                      }
+                      cvss {
+                        score     
+                        vectorString        
+                      }
+                      cwes(first: 5) {              
+                        nodes {
+                          cweId
+                          name
+                          description
+                        }
+                      }
+                    }
+                  }        
+                }
+              }
+              nameWithOwner
+              url
+            }
+          }
+          {
+            "name": "${{ github.repository }}",
+            "owner": "${{ github.repository_owner }}"
+          }'
+        gh api graphql -F query="${query}"
+      env:
+        GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
