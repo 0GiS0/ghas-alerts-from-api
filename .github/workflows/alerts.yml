@@ -49,7 +49,7 @@ jobs:
       run: |
         query='
           query ($name: String!, $owner: String!) {  
-            repository(owner: $owner, name: $name) {
+            repository(owner: "0GiS0", name: "ghas-alerts-from-api") {
               nameWithOwner
               url
               vulnerabilityAlerts(first: 20) {
@@ -93,12 +93,8 @@ jobs:
               nameWithOwner
               url
             }
-          }
-
-          {
-            "name": "ghas-alerts-from-api",
-            "owner": "${{ github.repository_owner }}"
           }'
+          
         gh api graphql -F query="${query}"
       env:
         GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
