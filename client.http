@@ -1,51 +1,18 @@
-GET https://api.github.com/repos/dragonstone-org/dependabot-poc/dependabot/alerts
-Authorization: Bearer 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
-X-GitHub-Api-Version: 2022-11-28
-Accept: application/vnd.github+json
+@PAT = {{ $dotenv PAT }}
+@REPO_NAME = {{ $dotenv REPO_NAME }}
+
+@OWNER = {{ $dotenv OWNER }}
 
 ###
-
-POST https://api.github.com/graphql
-Content-Type: application/json
-Authorization: Bearer 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
-X-REQUEST-TYPE: GraphQL
-
-query ($name: String!, $owner: String!) {
-  repository(name: $name, owner: $owner) {
-    name
-    fullName: nameWithOwner
-    description
-    diskUsage
-    forkCount
-    stargazers(first: 5) {
-        totalCount
-        nodes {
-            login
-            name
-        }
-    }
-    watchers {
-        totalCount
-    }
-  }
-}
-
-{
-    "name": "vscode-restclient",
-    "owner": "Huachao"
-}
-
-###
-
 
 https://api.github.com/graphql
-Authorization: Bearer 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
+Authorization: Bearer {{ PAT }}
 
 
 ###
 POST https://api.github.com/graphql
 Content-Type: application/json
-Authorization: Bearer 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
+Authorization: Bearer {{ PAT }}
 X-REQUEST-TYPE: GraphQL
 
 query {
@@ -63,41 +30,49 @@ query {
 
 POST https://api.github.com/graphql
 Content-Type: application/json
-Authorization: Bearer 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
+Authorization: Bearer {{ PAT }}
 X-REQUEST-TYPE: GraphQL
 
 query ($name: String!, $owner: String!) {  
   repository(owner: $owner, name: $name) {
+    nameWithOwner
+    url
     vulnerabilityAlerts(first: 20) {
       nodes {
+        id
         number
-        securityVulnerability {
-          advisory {
-            summary
-            description
-            cvss {
-              score
-              vectorString
-            }
-            cwes {
-              nodes {
-                cweId
-              }
-            }
-            references {
-              url
-            }
-          }
-          package {
-            name
-          }
-          severity
-        }
         createdAt
         state
         vulnerableManifestPath
-        vulnerableRequirements
-        id
+        vulnerableRequirements        
+        securityVulnerability {
+          package {
+            name
+          }
+          advisory {
+            severity
+            summary
+            description
+            references{
+              url
+            }
+            identifiers {
+              type
+              value
+            }
+            cvss {
+              score     
+              vectorString        
+            }
+            cwes(first: 5) {
+              nodes {
+                id
+                name
+                description
+              }
+            }
+          }
+        }        
       }
     }
     nameWithOwner
@@ -106,7 +81,7 @@ query ($name: String!, $owner: String!) {
 }
 
 {
-    "name": "ghas-alerts-from-api",
-    "owner": "0gis0"
+    "name": "{{ REPO_NAME }}",
+    "owner": "{{ OWNER }}"
 }
 
