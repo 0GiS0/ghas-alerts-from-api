@@ -1,0 +1,55 @@
+@baseUrl = http://localhost:8080/api/v2
+
+
+###
+
+# List products
+
+GET {{baseUrl}}/products/
+Authorization: Token 2126ab9137fba34eeb7cc3e48509db52fbca911d
+
+###
+
+# Import a scan
+
+POST {{baseUrl}}/import-scan/
+Authorization: Token 2126ab9137fba34eeb7cc3e48509db52fbca911d
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="product_name"
+
+dev
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="engagement"
+
+3
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="scan_type"
+
+SARIF
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="python.sarif"
+
+< ./python.sarif
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="verified"
+
+true
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="lead"
+
+1
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="tags"
+
+ghas
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="minimum_severity"
+
+Info
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="skip_duplicates"
+
+true
+
