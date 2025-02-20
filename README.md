@@ -17,8 +17,29 @@ Today, DefectDojo only supports the import of Code Scanning Alerts (using SARIF 
 
 ## Pre-requisites
 
-For this PoC I clone DefectDojo and I expose it using some tunnel like ngrok or localtunnel. You can use any other method to expose your DefectDojo instance. And then I added a secret to my repo called `DEFECTDOJO_URL`with the URL that the tunnel exposes. I also added a secret
-called `DEFECTDOJO_TOKEN` with the DefectDojo API token. You can create a DefectDojo API token in your user profile.
+For this PoC I clone DefectDojo repo:
+
+```bash
+git clone https://github.com/DefectDojo/django-DefectDojo.git
+```
+
+I run it using Docker:
+
+```bash
+docker compose up
+```
+
+
+and I expose it using some tunnel, for example [pinggy.io](https://pinggy.io/) or [ngrok](https://ngrok.com/). I used pinggy.io and the command:
+
+```bash
+ssh -p 443 -R0:localhost:8080 qr@a.pinggy.io
+```
+
+And then I add a secret to my repo called `DEFECTDOJO_URL`with the URL that the tunnel exposes. I also added a secret called `DEFECTDOJO_TOKEN` with the DefectDojo API token. You can create a DefectDojo API token in your user profile.
+
+Congratulations! You are ready to go! 🎉
+
 
 ## Import Dependabot alerts
 
