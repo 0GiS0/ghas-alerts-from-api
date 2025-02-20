@@ -1,6 +1,6 @@
 getenv==0.2.0
 requests==2.32.3
-mitmproxy==11.1.0
+mitmproxy==11.1.2
 snowflake-connector-python==3.13.0
 
 click==7.1.2
