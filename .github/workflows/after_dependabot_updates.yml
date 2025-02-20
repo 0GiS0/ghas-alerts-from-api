@@ -1,0 +1,93 @@
+name: Executed after Dependabot updates 
+
+on:
+    workflow_run:
+        workflows: ["Dependabot Updates"]
+        types:
+        - completed
+
+permissions:
+  contents: read
+
+env:
+  DEFECTDOJO_PRODUCT_NAME: ghas-alerts-from-api
+  DEFECTDOJO_URL: http://rnuzk-89-7-206-51.a.free.pinggy.link/api/v2
+  DEFECTDOJO_TOKEN: ${ secrets.DEFECTDOJO_TOKEN }
+  ENGAGEMENT_ID: 17
+
+jobs:
+    import_depenabot_security_updates:
+        name: Import Dependabot security updates
+        runs-on: ubuntu-latest
+        if: ${{ github.event.workflow_run.name == 'Dependabot Updates' && github.event.workflow_run.conclusion == 'success' }}
+        steps:
+            - name: Generate a token
+              id: generate-token
+              uses: actions/create-github-app-token@v1
+              with:
+                app-id: ${{ secrets.APP_ID }}
+                private-key: ${{ secrets.APP_PRIVATE_KEY }}
+        
+            - name: Get Security alerts using GraphQL API
+              run: |
+                query='
+                  query () {  
+                    repository(owner: "0GiS0", name: "ghas-alerts-from-api") {
+                      nameWithOwner
+                      url
+                      vulnerabilityAlerts(first: 20) {
+                        nodes {
+                          id
+                          number
+                          createdAt
+                          state
+                          vulnerableManifestPath
+                          vulnerableRequirements        
+                          securityVulnerability {
+                            package {
+                              name
+                            }
+                            advisory {
+                              severity
+                              summary
+                              description
+                              references {
+                                url
+                              }
+                              identifiers {
+                                type
+                                value
+                              }
+                              cvss {
+                                score     
+                                vectorString        
+                              }
+                              cwes(first: 5) {              
+                                nodes {
+                                  cweId
+                                  name
+                                  description
+                                }
+                              }
+                            }
+                          }        
+                        }
+                      }
+                      nameWithOwner
+                      url
+                    }
+                  }'
+                  
+                gh api graphql -F query="${query}" > dependabot-security-alerts.json
+              env:
+                GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
+
+            - name: Upload Results to DefectDojo
+              run: |
+                curl -X POST "${{ env.DEFECTDOJO_URL }}/import-scan/" \
+                -H "Authorization: Token ${{ env.DEFECTDOJO_TOKEN }}" \
+                -F 'product_name=${{ env.DEFECTDOJO_PRODUCT_NAME }}' \
+                -F 'engagement=${{ env.ENGAGEMENT_ID }}' \
+                -F 'scan_type="Github Vulnerability Scan"' \
+                -F 'file=@dependabot-security-alerts.json'
+               

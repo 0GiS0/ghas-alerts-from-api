@@ -23,7 +23,7 @@ on:
 env:
   DEFECTDOJO_PRODUCT_NAME: ghas-alerts-from-api
   DEFECTDOJO_URL: http://rnuzk-89-7-206-51.a.free.pinggy.link/api/v2
-  DEFECTDOJO_TOKEN: 2126ab9137fba34eeb7cc3e48509db52fbca911d
+  DEFECTDOJO_TOKEN: ${ secrets.DEFECTDOJO_TOKEN }
   ENGAGEMENT_ID: 17
 
 jobs:
@@ -112,8 +112,13 @@ jobs:
         # Artifact name
         name: codeql-result
         # A file, directory or wildcard pattern that describes what to upload
-        path:  /home/runner/work/ghas-alerts-from-api/results/python.sarif
+        path:  /home/runner/work/ghas-alerts-from-api/results/*.sarif
 
+    - name: Get the name of the SARIF using the wildcard
+      id: get-sarif-name
+      run: |
+        echo "SARIF_NAME=$(ls /home/runner/work/ghas-alerts-from-api/results/*.sarif)" >> $GITHUB_ENV
+        echo "SARIF_NAME=${{ env.SARIF_NAME }}"
 
     - name: Upload Results to DefectDojo
       run: |
@@ -122,4 +127,4 @@ jobs:
         -F 'product_name=${{ env.DEFECTDOJO_PRODUCT_NAME }}' \
         -F 'engagement=${{ env.ENGAGEMENT_ID }}' \
         -F 'scan_type="SARIF"' \
-        -F 'file=@/home/runner/work/ghas-alerts-from-api/results/python.sarif'
+        -F 'file=@/home/runner/work/ghas-alerts-from-api/results/${{ env.SARIF_NAME }}'
