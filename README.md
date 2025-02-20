@@ -126,7 +126,7 @@ To import Secret Scanning Alerts, we cannot use an import but we can create the 
       - name: Get secrets
         run: |
           curl  \
-          --url https://api.github.com/repos/0gis0/import-ghas-to-defectdojo/secret-scanning/alerts \
+          --url https://api.github.com/repos/${{ github.repository }}/secret-scanning/alerts \
           --header "Authorization: Bearer ${{ steps.generate-token.outputs.token }}" \
           --header 'content-type: application/json' > secrets.json
 ```
