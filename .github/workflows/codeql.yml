@@ -106,13 +106,18 @@ jobs:
       with:
         category: "/language:${{matrix.language}}"
 
+    - name: Extract repository name
+      run: |
+        REPO_NAME=$(echo ${{ github.repository }} | cut -d'/' -f2)
+        echo "REPO_NAME=$REPO_NAME" >> $GITHUB_ENV
+
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v4.6.0
       with:
         # Artifact name
         name: ${{matrix.language}}-codeql-result
         # A file, directory or wildcard pattern that describes what to upload
-        path:  /home/runner/work/${{ github.repository }}/results/${{matrix.language}}.sarif
+        path:  /home/runner/work/${{ env.REPO_NAME }}/results/${{matrix.language}}.sarif
 
     - name: Upload Results to DefectDojo
       run: |
@@ -121,4 +126,4 @@ jobs:
         -F 'product_name=${{ env.DEFECTDOJO_PRODUCT_NAME }}' \
         -F 'engagement=${{ env.ENGAGEMENT_ID }}' \
         -F 'scan_type="SARIF"' \
-        -F 'file=@/home/runner/work/${{ github.repository }}/results/${{matrix.language}}.sarif'
+        -F 'file=@/home/runner/work/${{ env.REPO_NAME }}/results/${{matrix.language}}.sarif'
