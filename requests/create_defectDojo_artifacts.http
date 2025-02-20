@@ -1,0 +1,83 @@
+// Variables
+@baseUrl = http://localhost:8080/api/v2
+
+@token = 2126ab9137fba34eeb7cc3e48509db52fbca911d
+
+@productName = "ghas-alerts-from-api"
+
+# @name addProduct
+POST {{baseUrl}}/products/
+Authorization: Token {{token}}
+Content-Type: application/json
+
+{
+  "name": {{productName}},
+  "description": "Testing REST API",
+  "prod_type": 1
+}
+
+###
+
+@productId = {{ addProduct.response.body.id }}
+
+###
+
+GET {{baseUrl}}/engagements/
+Authorization: Token {{token}}
+
+###
+
+# @name addEngagement
+POST {{baseUrl}}/engagements/
+Authorization: Token {{token}}
+Content-Type: application/json
+
+{
+  "product": "{{productId}}",
+  "name": "github-actions",
+  "description": {{productName}},
+  "engagement_type": "CI/CD",
+  "target_start": "2025-02-20",
+  "target_end": "2025-02-20"
+}
+
+###
+@engagementId = {{ addEngagement.response.body.id }}
+
+
+// For the secrets you'll need to create  a new test type.
+
+# @name addTestType
+POST {{baseUrl}}/test_types/
+Authorization: Token {{token}}
+Content-Type: application/json
+
+{
+  "name": "GitHub Advanced Security - Secret Scanning",
+  "description": "GitHub Advanced Security - Secret Scanning",
+  "static_tool": true,
+  "active": true 
+}
+
+@testTypeId = {{ addTestType.response.body.id }}
+
+###
+
+// And then a test to associate the findings with.
+
+# @name addTest
+POST {{baseUrl}}/tests/
+Authorization: Token {{token}}
+Content-Type: application/json
+
+{
+  "title": "GitHub Advanced Security - Secret Scanning", 
+  "engagement": {{engagementId}},
+  "test_type": {{testTypeId}},
+  "target_start": "2025-02-20",
+  "target_end": "2025-02-20"
+}
+
+###
+
+@testId = {{ addTest.response.body.id }}
