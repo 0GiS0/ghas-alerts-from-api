@@ -1,4 +1,4 @@
-name: Retrieve GHAS Alerts 📋🚨🔍📊
+name: 📋🚨🔍📊 Retrieve GHAS Alerts 
 
 on:
   workflow_dispatch:  

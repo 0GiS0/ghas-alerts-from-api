@@ -1,5 +1,5 @@
 # 1. Read the input file and store it as a JSON
-FILE_NAME=Response-1740048579042.json
+FILE_NAME=Response-1740058048142.http
 
 # 2. The fields DefectDojo needs to add a finding are:
 #    - title
