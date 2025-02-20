@@ -1,4 +1,4 @@
-name: Executed after Dependabot updates 
+name: Executed after Dependabot updates ✅🔄🤖📦
 
 on:
     workflow_run:
