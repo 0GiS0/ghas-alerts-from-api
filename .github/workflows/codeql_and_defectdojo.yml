@@ -22,8 +22,7 @@ on:
 
 env:
   DEFECTDOJO_PRODUCT_NAME: ghas-alerts-from-api
-  DEFECTDOJO_URL: ${{ secrets.DEFECTDOJO_URL }}/api/v2
-  DEFECTDOJO_TOKEN: ${{ secrets.DEFECTDOJO_TOKEN }}
+  DEFECTDOJO_URL: ${{ secrets.DEFECTDOJO_URL }}/api/v2  
   ENGAGEMENT_ID: 17
 
 jobs:
@@ -122,7 +121,7 @@ jobs:
     - name: Upload Results to DefectDojo
       run: |
         curl -X POST "${{ env.DEFECTDOJO_URL }}/import-scan/" \
-        -H "Authorization: Token ${{ env.DEFECTDOJO_TOKEN }}" \
+        -H "Authorization: Token ${{ secrets.DEFECTDOJO_TOKEN }}" \
         -F 'product_name=${{ env.DEFECTDOJO_PRODUCT_NAME }}' \
         -F 'engagement=${{ env.ENGAGEMENT_ID }}' \
         -F 'scan_type="SARIF"' \
