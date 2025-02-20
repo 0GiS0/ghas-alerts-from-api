@@ -118,7 +118,7 @@ jobs:
     - name: Upload Results to DefectDojo
       run: |
         curl -X POST "${{ env.DEFECTDOJO_URL }}/import-scan/" \
-        -H "Authorization: ${{ env.DEFECTDOJO_TOKEN }}" \
+        -H "Authorization: Token ${{ env.DEFECTDOJO_TOKEN }}" \
         -F 'product_name=${{ env.DEFECTDOJO_PRODUCT_NAME }}' \
         -F 'engagement=${{ env.ENGAGEMENT_ID }}' \
         -F 'scan_type="SARIF"' \
