@@ -11,7 +11,7 @@ permissions:
 
 env:
   DEFECTDOJO_PRODUCT_NAME: ghas-alerts-from-api
-  DEFECTDOJO_URL: http://rnifj-89-7-206-51.a.free.pinggy.link/api/v2
+  DEFECTDOJO_URL: http://rngma-89-7-206-51.a.free.pinggy.link/api/v2
   DEFECTDOJO_TOKEN: ${{ secrets.DEFECTDOJO_TOKEN }}
   ENGAGEMENT_ID: 17
 
