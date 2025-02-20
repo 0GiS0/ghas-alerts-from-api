@@ -19,7 +19,7 @@ jobs:
     import_depenabot_security_updates:
         name: Import Dependabot security updates
         runs-on: ubuntu-latest
-        if: ${{ github.event.workflow_run.name == 'Dependabot Updates' && github.event.workflow_run.conclusion == 'success' }}
+        if: ${{ github.event.workflow_run.conclusion == 'success' }}
         steps:
             - name: Generate a token
               id: generate-token
