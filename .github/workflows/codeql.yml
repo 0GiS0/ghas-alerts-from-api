@@ -23,7 +23,7 @@ on:
 env:
   DEFECTDOJO_PRODUCT_NAME: ghas-alerts-from-api
   DEFECTDOJO_URL: http://rnuzk-89-7-206-51.a.free.pinggy.link/api/v2
-  DEFECTDOJO_TOKEN: ${ secrets.DEFECTDOJO_TOKEN }
+  DEFECTDOJO_TOKEN: ${{ secrets.DEFECTDOJO_TOKEN }}
   ENGAGEMENT_ID: 17
 
 jobs:
