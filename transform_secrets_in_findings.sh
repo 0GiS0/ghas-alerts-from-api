@@ -53,3 +53,5 @@ for row in $(echo "${JSON}" | jq -r '.[] | @base64'); do
         }' \
         "$DEFECT_DOJO_API_URL/api/v2/findings/"
 done
+
+
