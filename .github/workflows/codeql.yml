@@ -106,13 +106,13 @@ jobs:
       with:
         category: "/language:${{matrix.language}}"
 
-    - name: Upload a Build Artifact
-      uses: actions/upload-artifact@v4.6.0
-      with:
-        # Artifact name
-        name: codeql-result
-        # A file, directory or wildcard pattern that describes what to upload
-        path:  /home/runner/work/ghas-alerts-from-api/results/${{matrix.language}}.sarif
+    # - name: Upload a Build Artifact
+    #   uses: actions/upload-artifact@v4.6.0
+    #   with:
+    #     # Artifact name
+    #     name: codeql-result
+    #     # A file, directory or wildcard pattern that describes what to upload
+    #     path:  /home/runner/work/ghas-alerts-from-api/results/${{matrix.language}}.sarif
 
     - name: Upload Results to DefectDojo
       run: |
