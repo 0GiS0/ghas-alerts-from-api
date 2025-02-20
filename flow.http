@@ -1,8 +1,9 @@
 // Variables
-@baseUrl = http://localhost:8080/api/v2
+# @baseUrl = http://localhost:8080/api/v2
+@baseUrl = http://rnuzk-89-7-206-51.a.free.pinggy.link/api/v2
 @token = 2126ab9137fba34eeb7cc3e48509db52fbca911d
 
-@productName = "Test GHAS"
+@productName = "ghas-alerts-from-api"
 
 ###
 
@@ -28,6 +29,13 @@ Content-Type: application/json
 
 @productId = {{ addProduct.response.body.id }}
 
+###
+
+GET {{baseUrl}}/engagements/
+Authorization: Token {{token}}
+
+###
+
 # @name addEngagement
 POST {{baseUrl}}/engagements/
 Authorization: Token {{token}}
@@ -35,11 +43,11 @@ Content-Type: application/json
 
 {
   "product": "{{productId}}",
-  "name": {{productName}},
+  "name": "github-actions",
   "description": {{productName}},
-  "target_start": "2023-10-01",
-  "target_end": "2023-10-31",
-  "lead": 1  
+  "engagement_type": "CI/CD",
+  "target_start": "2025-02-20",
+  "target_end": "2025-02-20"
 }
 
 ###
@@ -65,7 +73,7 @@ SARIF
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="file"; filename="python.sarif"
 
-< ./code-scanning-fixed.json
+< ./python.sarif
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="verified"
 
@@ -86,3 +94,9 @@ Info
 Content-Disposition: form-data; name="skip_duplicates"
 
 true
+
+
+###
+
+DELETE {{baseUrl}}/products/{{productId}}/
+Authorization: Token {{token}}
